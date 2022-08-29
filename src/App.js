@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, useLocation } from "react-router-dom";
+import Header from "./components/Header";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Links from "./components/Links";
+import Blog from "./components/Blog";
+import { routeHelper } from "./lib/routes";
+import TransitionRoutes from "./components/TransitionRoutes";
 
-function App() {
+export default function App() {
+  const location = useLocation();
+  const route = routeHelper[location.pathname];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header route={route} />
+
+      <TransitionRoutes location={location} route={route}>
+        <Route path="/" element={null} />
+
+        <Route path="about" element={<About />} />
+        <Route path="projects" element={<Projects />} />
+        <Route path="links" element={<Links />} />
+        <Route path="blog" element={<Blog />} />
+      </TransitionRoutes>
+    </>
   );
 }
-
-export default App;
