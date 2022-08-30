@@ -2,24 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import "./hljs.css";
+@import "./markdown.css";
 
 body {
-  background-image: url("../../public/images/ocean.jpg");
-  background-repeat: repeat;
-  background-position: center;
+  @apply bg-[url("../../public/images/ocean.jpg")] bg-repeat bg-center h-screen w-full;
 
   font-variant-ligatures: normal;
-
-  min-height: 100vh;
-  width: 100%;
 }
 
 #root {
-  min-height: 100vh;
-  width: 100%;
-
-  @apply flex items-center flex-col h-screen;
+  @apply flex items-center flex-col min-h-screen w-full;
 }
 
 .type-anim {
@@ -28,14 +22,26 @@ body {
 }
 
 .type-anim span {
-  display: block;
-  white-space: nowrap;
+  @apply block whitespace-nowrap overflow-hidden;
   border-right: 0.05em solid transparent;
-  overflow: hidden;
 }
 
 .no-ligatures {
   font-variant-ligatures: none !important;
+}
+
+.link-blog {
+  @apply relative;
+}
+
+.link-blog::after {
+  @apply block content-[''] w-0 h-full absolute top-0 left-0 bg-white mix-blend-difference;
+
+  transition: width 0.75s steps(5);
+}
+
+.link-blog:hover::after {
+  @apply w-full;
 }
 
 @keyframes type {

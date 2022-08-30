@@ -74,7 +74,7 @@ export default function Header({ route }) {
     return (
       <Link
         to={to}
-        className={`text-base text-white mx-5 ${
+        className={`text-sm sm:text-base whitespace-nowrap text-white mx-5 mb-5 ${
           isAnimating ? "pointer-events-none cursor-pointer" : ""
         }`}
       >
@@ -91,7 +91,7 @@ export default function Header({ route }) {
     >
       <h1 className="hidden">Tamanoir.net</h1>
 
-      <div className="text-4xl text-white text-center flex">
+      <div className="text-xl sm:text-2xl lg:text-4xl text-white text-center flex">
         <Link
           to="/"
           className={isAnimating ? "pointer-events-none cursor-pointer" : ""}
@@ -104,10 +104,10 @@ export default function Header({ route }) {
         </div>
       </div>
 
-      <nav className="flex items-center mt-10">
+      <nav className="flex flex-wrap justify-center mt-10">
         <LinkHelper to="/about">{"?="} About</LinkHelper>
         <LinkHelper to="/projects">{"^="} Projects</LinkHelper>
-        <LinkHelper to="/links">{"&="} Links</LinkHelper>
+        <LinkHelper to="/contact">{"&="} Contact</LinkHelper>
         <LinkHelper to="/blog">{"/="} Blog</LinkHelper>
       </nav>
     </header>

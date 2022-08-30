@@ -29,7 +29,7 @@ export default function TransitionRoutes({ location, route, children }) {
           }}
         />
       )}
-      <div className={load ? "hidden" : ""}>
+      <div className={load ? "hidden" : "w-full flex justify-center"}>
         <Routes location={currLocation}>{children}</Routes>
       </div>
     </>

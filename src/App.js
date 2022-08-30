@@ -2,7 +2,7 @@ import { Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import About from "./components/About";
 import Projects from "./components/Projects";
-import Links from "./components/Links";
+import Contact from "./components/Contact";
 import Blog from "./components/Blog";
 import { routeHelper } from "./lib/routes";
 import TransitionRoutes from "./components/TransitionRoutes";
@@ -20,7 +20,7 @@ export default function App() {
 
         <Route path="about" element={<About />} />
         <Route path="projects" element={<Projects />} />
-        <Route path="links" element={<Links />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="blog" element={<Blog />} />
       </TransitionRoutes>
     </>
