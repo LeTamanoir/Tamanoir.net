@@ -1,7 +1,7 @@
 export default function Projects() {
   return (
-    <main className="flex w-[50rem] justify-center mt-40">
-      <ul className="text-base text-white leading-8">
+    <main className="flex justify-center mt-40">
+      <ul className="text-base leading-8">
         <li>
           Personal website :{" "}
           <a

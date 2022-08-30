@@ -19,13 +19,13 @@ export default function Loading({ start, stop }) {
     if (progress > 0) {
       setTimeout(() => {
         setProgress((e) => e + 1);
-      }, 50);
+      }, 35);
     }
   }, [progress]);
 
   return (
     <div className="mt-40 flex justify-center">
-      <span className="no-ligatures text-xl text-white">
+      <span className="no-ligatures text-xl">
         {"[" +
           Array(20)
             .fill(0)

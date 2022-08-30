@@ -4,8 +4,12 @@
 }
 
 .markdown {
-  @apply text-white leading-normal break-words bg-white bg-opacity-10;
+  @apply text-black dark:text-white leading-normal break-words bg-black bg-opacity-10 dark:bg-opacity-10 dark:bg-white;
 
+  box-shadow: 0 0 2rem 2rem rgba(0, 0, 0, 0.1);
+}
+
+html.dark .markdown {
   box-shadow: 0 0 2rem 2rem rgba(255, 255, 255, 0.1);
 }
 
@@ -26,7 +30,7 @@
 }
 
 .markdown a {
-  @apply text-blue-400 font-semibold hover:underline;
+  @apply text-blue-600 dark:text-blue-400 font-semibold hover:underline;
 }
 
 .markdown strong a {
@@ -34,11 +38,11 @@
 }
 
 .markdown h1 {
-  @apply leading-tight border-b text-4xl font-semibold mb-4 mt-6 pb-2;
+  @apply leading-tight border-b border-black dark:border-white text-4xl font-semibold mb-4 mt-6 pb-2;
 }
 
 .markdown h2 {
-  @apply leading-tight border-b text-2xl font-semibold mb-4 mt-6 pb-2;
+  @apply leading-tight border-b border-black dark:border-white text-2xl font-semibold mb-4 mt-6 pb-2;
 }
 
 .markdown h3 {
@@ -86,15 +90,15 @@
 }
 
 .markdown table {
-  @apply text-base border-white;
+  @apply text-base;
 }
 
 .markdown th {
-  @apply border py-1 px-3;
+  @apply border border-black dark:border-white py-1 px-3;
 }
 
 .markdown td {
-  @apply border py-1 px-3;
+  @apply border border-black dark:border-white py-1 px-3;
 }
 
 .markdown > *:first-child {

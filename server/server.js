@@ -18,8 +18,7 @@ app.get("/api/blog", (req, res) => {
   fs.readdirSync(POSTS).forEach((post) => {
     let postPath = path.resolve("./posts", post);
     let postContent = fs.readFileSync(postPath);
-
-    const { data } = matter(postContent);
+    let { data } = matter(postContent);
 
     posts.push({ ...data, href: encodeURIComponent(post) });
   });
@@ -32,11 +31,10 @@ app.get("/api/blog/:postName", (req, res) => {
   const postPath = path.resolve("./posts", postName);
 
   if (!postPath.startsWith(POSTS)) return res.sendStatus(403);
+  if (!fs.existsSync(postPath)) return res.sendStatus(404);
 
   const { content } = matter(fs.readFileSync(postPath));
-
   const post = { content: markdown.render(content) };
-
   res.json(post);
 });
 

@@ -23,8 +23,6 @@ export default function Header({ route }) {
       return;
     }
 
-    console.log(route, oldRoute);
-
     // going to the index
     if (route === "") {
       titleAnim.current.querySelector("span").style.animation =
@@ -74,7 +72,7 @@ export default function Header({ route }) {
     return (
       <Link
         to={to}
-        className={`text-sm sm:text-base whitespace-nowrap text-white mx-5 mb-5 ${
+        className={`text-sm sm:text-base whitespace-nowrap mx-5 mb-5 ${
           isAnimating ? "pointer-events-none cursor-pointer" : ""
         }`}
       >
@@ -85,13 +83,13 @@ export default function Header({ route }) {
 
   return (
     <header
-      className={`flex flex-col items-center transition-all duration-700 ${
+      className={`flex flex-col items-center transition-[margin,transform] duration-700 ${
         route !== "" ? "mt-10" : "mt-[50vh] -translate-y-1/2"
       }`}
     >
       <h1 className="hidden">Tamanoir.net</h1>
 
-      <div className="text-xl sm:text-2xl lg:text-4xl text-white text-center flex">
+      <div className="text-xl sm:text-2xl lg:text-4xl text-center flex">
         <Link
           to="/"
           className={isAnimating ? "pointer-events-none cursor-pointer" : ""}
