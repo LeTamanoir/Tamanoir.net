@@ -1,47 +1,55 @@
-require("dotenv").config();
+require("dotenv").config({ path: "./server/.env" });
 const express = require("express");
+const session = require("express-session");
+const { createServer } = require("http");
+const socketIO = require("socket.io");
 const path = require("path");
-const fs = require("fs");
-const app = express();
 
-const matter = require("gray-matter");
-const markdown = require("./lib/markdown");
+const { onConnection } = require("./socket");
+const { showPost, showPosts } = require("./blog");
+const { authUser, isAuthed } = require("./auth");
 
 const PORT = process.env.PORT || 4000;
-const POSTS = process.env.POSTS || path.resolve("./posts");
+const isProd = process.env.NODE_ENV === "production";
 
+const app = express();
+const httpServer = createServer(app);
+const io = socketIO(httpServer, {
+  cors: { origin: isProd ? "https://tamanoir.net" : "*" },
+});
+const sessionMiddleware = session({
+  name: "session-id",
+  saveUninitialized: false,
+  resave: false,
+  secret: process.env.SECRET_PASSWORD,
+  cookie: { maxAge: 1000 * 60 * 60 * 60, sameSite: true, secure: isProd },
+});
+const wrap = (middleware) => (socket, next) =>
+  middleware(socket.request, {}, next);
+
+app.use(express.json());
+app.use(sessionMiddleware);
 app.use(express.static(path.resolve("./build")));
 
-app.get("/api/blog", (req, res) => {
-  const posts = [];
+app.get("/api/blog", showPosts);
+app.get("/api/blog/:postName", showPost);
 
-  fs.readdirSync(POSTS).forEach((post) => {
-    let postPath = path.resolve("./posts", post);
-    let postContent = fs.readFileSync(postPath);
-    let { data } = matter(postContent);
+app.get("/api/login", isAuthed);
+app.post("/api/login", authUser);
 
-    posts.push({ ...data, href: encodeURIComponent(post) });
-  });
+app.get("/*", (_, res) => res.sendFile(path.resolve("./build/index.html")));
 
-  res.json(posts);
+io.use(wrap(sessionMiddleware));
+
+io.use((socket, next) => {
+  if (process.env.BLOG_USERNAME === "") next(new Error("unauthorized"));
+  if (socket.request.session.user?.username === process.env.BLOG_USERNAME)
+    next();
+  else next(new Error("unauthorized"));
 });
 
-app.get("/api/blog/:postName", (req, res) => {
-  const { postName } = req.params;
-  const postPath = path.resolve("./posts", postName);
+io.on("connection", onConnection);
 
-  if (!postPath.startsWith(POSTS)) return res.sendStatus(403);
-  if (!fs.existsSync(postPath)) return res.sendStatus(404);
-
-  const { content } = matter(fs.readFileSync(postPath));
-  const post = { content: markdown.render(content) };
-  res.json(post);
+httpServer.listen(PORT, () => {
+  console.log(`server listening on : http://localhost:${PORT}/`);
 });
-
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve("./build/index.html"));
-});
-
-app.listen(PORT, () =>
-  console.log(`server listening on : http://localhost:${PORT}/`)
-);

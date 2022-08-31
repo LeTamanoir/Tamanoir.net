@@ -1,8 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function Header({ route }) {
-  const [isAnimating, setIsAnimating] = useState(false);
+const LinkHelper = ({ to, children, isAnimating }) => {
+  return (
+    <Link
+      to={to}
+      className={`text-sm sm:text-base whitespace-nowrap mx-5 mb-5 ${
+        isAnimating ? "pointer-events-none cursor-pointer" : ""
+      }`}
+    >
+      {children}
+    </Link>
+  );
+};
+
+export default function Header({ route, isAnimating, setIsAnimating }) {
   const [oldRoute, setOldRoute] = useState(route);
 
   const titleAnim = useRef(null);
@@ -68,19 +80,6 @@ export default function Header({ route }) {
     }
   }, [route]);
 
-  const LinkHelper = ({ to, children }) => {
-    return (
-      <Link
-        to={to}
-        className={`text-sm sm:text-base whitespace-nowrap mx-5 mb-5 ${
-          isAnimating ? "pointer-events-none cursor-pointer" : ""
-        }`}
-      >
-        {children}
-      </Link>
-    );
-  };
-
   return (
     <header
       className={`flex flex-col items-center transition-[margin,transform] duration-700 ${
@@ -103,10 +102,18 @@ export default function Header({ route }) {
       </div>
 
       <nav className="flex flex-wrap justify-center mt-10">
-        <LinkHelper to="/about">{"?="} About</LinkHelper>
-        <LinkHelper to="/projects">{"^="} Projects</LinkHelper>
-        <LinkHelper to="/contact">{"&="} Contact</LinkHelper>
-        <LinkHelper to="/blog">{"/="} Blog</LinkHelper>
+        <LinkHelper isAnimating={isAnimating} to="/about">
+          {"?="} About
+        </LinkHelper>
+        <LinkHelper isAnimating={isAnimating} to="/projects">
+          {"^="} Projects
+        </LinkHelper>
+        <LinkHelper isAnimating={isAnimating} to="/contact">
+          {"&="} Contact
+        </LinkHelper>
+        <LinkHelper isAnimating={isAnimating} to="/blog">
+          {"/="} Blog
+        </LinkHelper>
       </nav>
     </header>
   );

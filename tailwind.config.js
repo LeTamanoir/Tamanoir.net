@@ -6,6 +6,10 @@ module.exports = {
       fontFamily: {
         sans: ['"JetBrains Mono"', "monospace"],
       },
+      colors: {
+        black: "#1f1f1f",
+        white: "#dfdfdf",
+      },
     },
   },
   darkMode: "class",

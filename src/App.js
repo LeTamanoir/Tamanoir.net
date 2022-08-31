@@ -9,11 +9,19 @@ import TransitionRoutes from "./components/TransitionRoutes";
 import Error404 from "./components/Error404";
 import Posts from "./components/Posts";
 import Post from "./components/Post";
-import ColorTheme from "./components/ColorTheme";
+import ColorThemeIcon from "./components/ColorThemeIcon";
+import LoginIcon from "./components/LoginIcon";
+import Admin from "./components/Admin";
+import useColorTheme from "./hooks/useColorTheme";
+import { useState } from "react";
 
 export default function App() {
   const location = useLocation();
   const route = routeHelper(location.pathname);
+  const [theme, setTheme, isDark] = useColorTheme();
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  console.log(route);
 
   // route doesn't exist so 404
   if (route === "404") {
@@ -22,16 +30,20 @@ export default function App() {
 
   return (
     <>
-      <Header route={route} />
+      <Header {...{ route, isAnimating, setIsAnimating }} />
 
-      <ColorTheme />
+      <div className="flex sm:absolute sm:top-2 sm:right-2">
+        <ColorThemeIcon {...{ theme, setTheme }} />
+        <LoginIcon isAnimating={isAnimating} />
+      </div>
 
-      <TransitionRoutes location={location} route={route}>
+      <TransitionRoutes {...{ location, route }}>
         <Route path="/" element={null} />
 
         <Route path="about" element={<About />} />
         <Route path="projects" element={<Projects />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="admin" element={<Admin isDark={isDark} />} />
 
         <Route path="blog" element={<Blog />}>
           <Route path="" element={<Posts />} />
