@@ -27,7 +27,7 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
     terminal.current.open(terminalRef.current);
 
     handleResize();
-    terminal.current.write("Terminal Connected\r\n");
+    terminal.current.write("ssh tamanoir@tamanoir.net\r\n");
     terminal.current.onData((data) => socket.current.emit("input", data));
     socket.current.on("output", (data) => terminal.current.write(data));
     socket.current.on("disconnect", () => setIsAuthed(false));
@@ -35,6 +35,7 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
     window.addEventListener("resize", handleResize);
 
     return () => {
+      socket.current.close();
       terminal.current.dispose();
       window.removeEventListener("resize", handleResize);
     };
@@ -56,9 +57,15 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
   }, [isDark, terminal.current]);
 
   return (
-    <div
-      className="border border-black dark:border-white"
-      ref={terminalRef}
-    ></div>
+    <div className="flex flex-col-reverse">
+      <div
+        className="border peer border-black dark:border-white"
+        ref={terminalRef}
+      ></div>
+
+      <div className="my-2 peer-hover:text-transparent font-bold text-center text-red-500 transition-colors">
+        Warning : if you change page you will be disconnected
+      </div>
+    </div>
   );
 }

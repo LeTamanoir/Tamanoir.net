@@ -34,7 +34,7 @@
     "eject": "react-scripts eject",
     "server:dev": "nodemon server/server.js",
     "server:prod": "node server/server.js",
-    "prod": "npm run build; PORT=3000 npm run server:prod"
+    "prod": "npm run build; NODE_ENV=production PORT=3000 npm run server:prod"
   },
   "eslintConfig": {
     "extends": [

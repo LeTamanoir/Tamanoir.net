@@ -1,10 +1,18 @@
 const pty = require("node-pty");
 
 const onConnection = (socket) => {
-  console.log("Connected socket : ", socket.id);
+  console.log(
+    `${process.env.BLOG_USERNAME} connected via socket : ${
+      socket.id
+    } at : ${new Date().toLocaleString()}`
+  );
 
   socket.on("disconnect", () =>
-    console.log("Disconnected socket: ", socket.id)
+    console.log(
+      `${process.env.BLOG_USERNAME} disconnected his socket : ${
+        socket.id
+      } on : ${new Date().toLocaleString()}`
+    )
   );
 
   const ptyProcess = pty.spawn("bash", [], {

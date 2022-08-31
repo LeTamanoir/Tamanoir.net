@@ -48,26 +48,20 @@ export default function Admin({ isDark }) {
     checkAuth();
   }, []);
 
-  return (
-    <>
-      <main className="flex justify-center my-10">
-        {isAuthed ? (
-          <TerminalWrapper isDark={isDark} setIsAuthed={setIsAuthed} />
-        ) : (
-          <form onSubmit={onSubmit} className="flex flex-col">
-            <InputHelper name="username" type="text" />
-            <InputHelper name="password" type="password" />
+  return isAuthed ? (
+    <TerminalWrapper isDark={isDark} setIsAuthed={setIsAuthed} />
+  ) : (
+    <form onSubmit={onSubmit} className="flex flex-col my-10">
+      <InputHelper name="username" type="text" />
+      <InputHelper name="password" type="password" />
 
-            {error && <div className="text-red-500 mb-3">{error}</div>}
+      {error && <div className="text-red-500 mb-3">{error}</div>}
 
-            <input
-              className="dark:text-white hover:underline hover:cursor-pointer"
-              type="submit"
-              value="Login"
-            />
-          </form>
-        )}
-      </main>
-    </>
+      <input
+        className="dark:text-white hover:underline hover:cursor-pointer"
+        type="submit"
+        value="Login"
+      />
+    </form>
   );
 }
