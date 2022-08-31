@@ -40,7 +40,10 @@ app.get("/*", (_, res) => res.sendFile(path.resolve("./build/index.html")));
 io.use(wrap(sessionMiddleware));
 
 io.use((socket, next) => {
+  console.log(socket.request.session);
+
   if (process.env.BLOG_USERNAME === "") next(new Error("unauthorized"));
+
   if (socket.request.session.user?.username === process.env.BLOG_USERNAME)
     next();
   else next(new Error("unauthorized"));
