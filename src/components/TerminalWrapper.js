@@ -21,7 +21,7 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
   };
 
   useEffect(() => {
-    socket.current = io();
+    socket.current = io("https://tamanoir.net");
     terminal.current = new Terminal({ allowTransparency: true });
 
     terminal.current.open(terminalRef.current);
