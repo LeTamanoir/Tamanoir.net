@@ -22,9 +22,9 @@ const showPosts = (_, res) => {
 
 const showPost = (req, res) => {
   const { postName } = req.params;
-  const postPath = path.resolve("./posts", postName);
+  const postPath = path.resolve(POSTS_DIR, postName);
 
-  if (!postPath.startsWith(POSTS_DIR)) return res.sendStatus(403);
+  if (!postPath.startsWith(path.resolve(POSTS_DIR))) return res.sendStatus(403);
   if (!fs.existsSync(postPath)) return res.sendStatus(404);
 
   const { content } = matter(fs.readFileSync(postPath));
