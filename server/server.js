@@ -14,9 +14,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 const app = express();
 const httpServer = createServer(app);
-const io = socketIO(httpServer, {
-  cors: { origin: isProd ? "https://tamanoir.net" : "*" },
-});
+const io = socketIO(httpServer, { cors: { origin: "*" } });
 const sessionMiddleware = session({
   name: "session-id",
   saveUninitialized: false,

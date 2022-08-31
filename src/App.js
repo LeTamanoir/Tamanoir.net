@@ -21,8 +21,6 @@ export default function App() {
   const [theme, setTheme, isDark] = useColorTheme();
   const [isAnimating, setIsAnimating] = useState(false);
 
-  console.log(route);
-
   // route doesn't exist so 404
   if (route === "404") {
     return <Error404 />;
