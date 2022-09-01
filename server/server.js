@@ -14,13 +14,14 @@ const isProd = process.env.NODE_ENV === "production";
 
 const app = express();
 const httpServer = createServer(app);
-const io = socketIO(httpServer, { cors: { origin: "*" } });
+const io = socketIO(httpServer, {
+  cors: { origin: isProd ? "tamanoir.net" : "*" },
+});
 const sessionMiddleware = session({
   name: "session-id",
   saveUninitialized: false,
   resave: false,
   secret: process.env.SECRET_PASSWORD,
-  // cookie: { maxAge: 1000 * 60 * 60 * 60, sameSite: true, secure: isProd },
 });
 const wrap = (middleware) => (socket, next) =>
   middleware(socket.request, {}, next);
