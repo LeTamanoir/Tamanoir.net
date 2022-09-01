@@ -20,13 +20,13 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.SECRET_PASSWORD,
-  cookie: { maxAge: 1000 * 60 * 60 * 60, sameSite: true, secure: isProd },
+  // cookie: { maxAge: 1000 * 60 * 60 * 60, sameSite: true, secure: isProd },
 });
 const wrap = (middleware) => (socket, next) =>
   middleware(socket.request, {}, next);
 
-app.use(express.json());
 app.use(sessionMiddleware);
+app.use(express.json());
 app.use(express.static(path.resolve("./build")));
 
 app.get("/api/blog", showPosts);
