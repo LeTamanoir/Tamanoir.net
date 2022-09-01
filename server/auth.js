@@ -17,8 +17,7 @@ const authUser = (req, res) => {
     process.env.BLOG_PASSWORD === password
   ) {
     req.session.user = { username: process.env.BLOG_USERNAME };
-    req.session.save(() => res.json({ auth: true }));
-    return;
+    return req.session.save(() => res.json({ auth: true }));
   }
 
   res.json({ auth: false, message: "bad username or password" });
