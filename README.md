@@ -4,19 +4,31 @@
 
 #### Development :
 
-client: `npm run start`
+client:
 
-server: `npm run server:dev`
+```bash
+npm run start
+```
+
+server:
+
+```bash
+npm run server:dev
+```
 
 #### Production :
 
-server: `npm run prod` which can be modified in `package.json`
+server:
+
+```bash
+npm run prod
+```
 
 generate password hash with `./scripts/genpass.sh` and change `server/.env` variables :
 
 ```text
-SECRET_PASSWORD -> long random password (at least 32 chars long)
-POSTS_DIR       -> posts directory
-BLOG_USERNAME   -> username
-BLOG_PASSWORD   -> password hash
+SECRET_PASSWORD = long random password (at least 32 chars long)
+POSTS_DIR       = posts directory
+BLOG_USERNAME   = username
+BLOG_PASSWORD   = password hash
 ```
