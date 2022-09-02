@@ -1,4 +1,5 @@
 const authRouter = require("express").Router();
+const bcrypt = require("bcrypt");
 
 authRouter.get("/api/login", (req, res) => {
   if (req.session.user) return res.json({ auth: true });
@@ -16,7 +17,7 @@ authRouter.post("/api/login", (req, res) => {
 
   if (
     process.env.BLOG_USERNAME === username &&
-    process.env.BLOG_PASSWORD === password
+    bcrypt.compareSync(password, process.env.BLOG_PASSWORD)
   ) {
     req.session.user = { auth: true };
     return req.session.save(() => res.json({ auth: true }));

@@ -12,7 +12,8 @@ server: `npm run server:dev`
 
 server: `npm run prod` which can be modified in `package.json`
 
-generate password hash with `./scripts/genPass.sh` and change `server/.env` variables :
+generate password hash with `./scripts/genpass.sh` and change `server/.env` variables :
+
 ```text
 SECRET_PASSWORD -> long random password (at least 32 chars long)
 POSTS_DIR       -> posts directory
