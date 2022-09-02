@@ -1,19 +1,8 @@
 const pty = require("node-pty");
+const { logOldConn, logNewConn } = require("./lib/logger");
 
 const onConnection = (socket) => {
-  console.log(
-    `${process.env.BLOG_USERNAME} connected via socket : ${
-      socket.id
-    } at : ${new Date().toLocaleString()}`
-  );
-
-  socket.on("disconnect", () =>
-    console.log(
-      `${process.env.BLOG_USERNAME} disconnected his socket : ${
-        socket.id
-      } on : ${new Date().toLocaleString()}`
-    )
-  );
+  logNewConn(socket);
 
   const ptyProcess = pty.spawn("bash", [], {
     name: "xterm-color",
@@ -26,21 +15,16 @@ const onConnection = (socket) => {
     socket.disconnect(true);
   });
 
-  ptyProcess.onData((data) => {
-    socket.emit("output", data);
-  });
+  ptyProcess.onData((data) => socket.emit("output", data));
 
-  socket.on("resize", ({ rows, cols }) => {
-    ptyProcess.resize(cols, rows);
-  });
-
-  socket.on("disconnect", (val) => {
+  socket.on("disconnect", () => {
     ptyProcess.kill();
+    logOldConn(socket);
   });
 
-  socket.on("input", (input) => {
-    ptyProcess.write(input);
-  });
+  socket.on("resize", ({ rows, cols }) => ptyProcess.resize(cols, rows));
+
+  socket.on("input", (input) => ptyProcess.write(input));
 };
 
 module.exports = { onConnection };

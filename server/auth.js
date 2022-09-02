@@ -1,10 +1,12 @@
-const isAuthed = (req, res) => {
+const authRouter = require("express").Router();
+
+authRouter.get("/api/login", (req, res) => {
   if (req.session.user) return res.json({ auth: true });
 
   res.json({ auth: false });
-};
+});
 
-const authUser = (req, res) => {
+authRouter.post("/api/login", (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password)
@@ -16,11 +18,11 @@ const authUser = (req, res) => {
     process.env.BLOG_USERNAME === username &&
     process.env.BLOG_PASSWORD === password
   ) {
-    req.session.user = { username: process.env.BLOG_USERNAME };
+    req.session.user = { auth: true };
     return req.session.save(() => res.json({ auth: true }));
   }
 
   res.json({ auth: false, message: "bad username or password" });
-};
+});
 
-module.exports = { isAuthed, authUser };
+module.exports = authRouter;

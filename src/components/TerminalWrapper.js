@@ -23,11 +23,9 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
   useEffect(() => {
     socket.current = io();
     terminal.current = new Terminal({ allowTransparency: true });
-
     terminal.current.open(terminalRef.current);
 
     handleResize();
-    terminal.current.write("ssh tamanoir@tamanoir.net\r\n");
     terminal.current.onData((data) => socket.current.emit("input", data));
     socket.current.on("output", (data) => terminal.current.write(data));
     socket.current.on("disconnect", () => setIsAuthed(false));

@@ -6,8 +6,9 @@ const socketIO = require("socket.io");
 const path = require("path");
 
 const { onConnection } = require("./socket");
-const { showPost, showPosts } = require("./blog");
-const { authUser, isAuthed } = require("./auth");
+const authRouter = require("./auth");
+const blogRouter = require("./blog");
+const { wrap } = require("./lib/wrap");
 
 const PORT = process.env.PORT || 4000;
 const isProd = process.env.NODE_ENV === "production";
@@ -23,27 +24,24 @@ const sessionMiddleware = session({
   resave: false,
   secret: process.env.SECRET_PASSWORD,
 });
-const wrap = (middleware) => (socket, next) =>
-  middleware(socket.request, {}, next);
+
+//= APP
 
 app.use(sessionMiddleware);
 app.use(express.json());
 app.use(express.static(path.resolve("./build")));
 
-app.get("/api/blog", showPosts);
-app.get("/api/blog/:postName", showPost);
-
-app.get("/api/login", isAuthed);
-app.post("/api/login", authUser);
+app.use(blogRouter);
+app.use(authRouter);
 
 app.get("/*", (_, res) => res.sendFile(path.resolve("./build/index.html")));
+
+//= IO
 
 io.use(wrap(sessionMiddleware));
 
 io.use((socket, next) => {
-  if (process.env.BLOG_USERNAME === "") next(new Error("unauthorized"));
-  if (socket.request.session.user?.username === process.env.BLOG_USERNAME)
-    next();
+  if (socket.request.session?.user?.auth === true) next();
   else next(new Error("unauthorized"));
 });
 
