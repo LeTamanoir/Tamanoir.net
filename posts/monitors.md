@@ -1,6 +1,7 @@
 ---
 title: Monitors
 description: c reverse shell is hard
+date: 08/01/2022
 ---
 
 # Monitors HTB

@@ -16,7 +16,7 @@ export default function useLocalStorage(key, defaultValue) {
 
   useEffect(() => {
     if (data === "init") return;
-    // console.log(data);
+
     localStorage.setItem(key, data);
   }, [data]);
 

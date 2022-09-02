@@ -3,11 +3,10 @@ import TerminalWrapper from "./TerminalWrapper";
 
 const InputHelper = ({ type, name }) => (
   <input
-    className="text-black bg-white border-2 border-black mb-4 p-2 rounded-md invalid:border-red-500"
+    className="text-black bg-white border-2 border-black mb-4 p-2 rounded-md"
     type={type}
     placeholder={name}
     name={name}
-    required
   />
 );
 
@@ -36,11 +35,11 @@ export default function Admin({ isDark }) {
 
     const { auth, message } = await res.json();
 
-    if (auth) {
-      setIsAuthed(true);
-    } else {
+    if (auth) setIsAuthed(true);
+    else {
       setIsAuthed(false);
       setError(message);
+      setTimeout(() => setError(""), 3000);
     }
   };
 
@@ -51,7 +50,7 @@ export default function Admin({ isDark }) {
   return isAuthed ? (
     <TerminalWrapper isDark={isDark} setIsAuthed={setIsAuthed} />
   ) : (
-    <form onSubmit={onSubmit} className="flex flex-col my-10">
+    <form onSubmit={onSubmit} className="flex items-center flex-col my-10">
       <InputHelper name="username" type="text" />
       <InputHelper name="password" type="password" />
 

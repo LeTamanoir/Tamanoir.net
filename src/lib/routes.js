@@ -5,6 +5,7 @@ const routes = {
   "/contact": "&= Contact",
   "/blog": "/= Blog",
   "/admin": ">>= Admin",
+  "/404": "404",
 };
 
 const routeHelper = (location) => {

@@ -29,13 +29,13 @@
     "xterm": "^4.19.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "client:dev": "react-scripts start",
+    "client:build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server:dev": "nodemon server/server.js",
     "server:prod": "node server/server.js",
-    "prod": "npm run build; NODE_ENV=production PORT=3000 npm run server:prod"
+    "prod": "npm run client:build && NODE_ENV=production PORT=3000 npm run server:prod"
   },
   "eslintConfig": {
     "extends": [

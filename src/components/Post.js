@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Post() {
   const [post, setPost] = useState({});
 
   const { postName } = useParams();
+  const navigate = useNavigate();
 
   const fetchPost = async (href) => {
-    const res = await fetch(`/api/blog/${href}`);
-    const data = await res.json();
-    setPost(data);
+    try {
+      const res = await fetch(`/api/blog/${href}`);
+      const data = await res.json();
+      setPost(data);
+    } catch (e) {
+      navigate("/404");
+    }
   };
 
   useEffect(() => {
     if (post.content) return;
 
-    console.log(postName, post);
     fetchPost(postName);
   }, [postName]);
 

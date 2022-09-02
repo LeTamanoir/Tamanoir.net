@@ -17,6 +17,11 @@ blogRouter.get("/api/blog", (_, res) => {
     posts.push({ ...data, href: encodeURIComponent(post) });
   });
 
+  const dateHelper = (d) =>
+    new Date(d.date.split("/").reverse().join("/")).getTime();
+
+  posts.sort((a, b) => dateHelper(b) - dateHelper(a));
+
   res.json(posts);
 });
 

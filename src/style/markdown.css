@@ -58,15 +58,15 @@ html.dark .markdown {
 }
 
 .markdown h6 {
-  @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-6;
+  @apply leading-tight text-sm font-semibold mb-4 mt-6;
 }
 
 .markdown blockquote {
-  @apply text-base border-l-4 border-gray-300 pl-4 pr-4 text-gray-600;
+  @apply text-base border-l-4 border-gray-700 dark:border-gray-300 pl-4 pr-4 text-gray-700 dark:text-gray-300;
 }
 
 .markdown code {
-  @apply font-mono text-sm inline bg-gray-700 rounded px-1 py-05;
+  @apply text-white dark:text-black font-mono text-sm inline bg-gray-700 dark:bg-gray-300 rounded px-1 py-05;
 }
 
 .markdown pre {
@@ -74,7 +74,7 @@ html.dark .markdown {
 }
 
 .markdown pre code {
-  @apply block bg-transparent p-0 overflow-scroll rounded-none;
+  @apply block bg-transparent dark:bg-transparent p-0 overflow-scroll rounded-none;
 }
 
 .markdown ul {
@@ -86,7 +86,7 @@ html.dark .markdown {
 }
 
 .markdown kbd {
-  @apply text-xs inline-block rounded border px-1 py-05 align-middle font-normal font-mono shadow;
+  @apply text-xs inline-block rounded border dark:border-white border-black px-1 py-0.5 font-normal shadow;
 }
 
 .markdown table {

@@ -1,6 +1,7 @@
 ---
 title: Knife
 description: PHP 8.1 dev exploit
+date: 04/01/2022
 ---
 
 # Knife HTB
