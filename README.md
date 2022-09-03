@@ -4,24 +4,18 @@
 
 #### Development :
 
-Client:
-
 ```bash
+# Client:
 npm run client:dev
-```
 
-Server:
-
-```bash
+# Server:
 npm run server:dev
 ```
 
 #### Production :
 
-Server:
-
 ```bash
-npm run prod   # which is (npm run client:build && NODE_ENV=production PORT=3000 npm run server:prod)
+npm run prod
 ```
 
 Generate password hash with `./scripts/genpass.sh` and change `server/.env` variables :
