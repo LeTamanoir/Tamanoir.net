@@ -1,7 +1,7 @@
-const markdownitEmoji = require("markdown-it-emoji");
-const MarkdownIt = require("markdown-it");
-const hljs = require("highlight.js");
-const imsize_plugin = require("markdown-it-imsize");
+import markdownitEmoji from "markdown-it-emoji";
+import MarkdownIt from "markdown-it";
+import hljs from "highlight.js";
+import imsize_plugin from "markdown-it-imsize";
 
 const markdown = new MarkdownIt({
   html: true,
@@ -16,4 +16,4 @@ const markdown = new MarkdownIt({
   .use(markdownitEmoji)
   .use(imsize_plugin);
 
-module.exports = markdown;
+export default markdown;

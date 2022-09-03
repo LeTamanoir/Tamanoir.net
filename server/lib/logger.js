@@ -12,4 +12,4 @@ const logOldConn = (socket) =>
     } on : ${new Date().toLocaleString()}`
   );
 
-module.exports = { logNewConn, logOldConn };
+export { logNewConn, logOldConn };

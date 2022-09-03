@@ -1,15 +1,16 @@
-const blogRouter = require("express").Router();
-const path = require("path");
-const fs = require("fs");
-const matter = require("gray-matter");
-const markdown = require("./lib/markdown");
+import { Router } from "express";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 
-const POSTS_DIR = process.env.POSTS_DIR;
+import markdown from "./lib/markdown.js";
+
+const blogRouter = Router();
 
 blogRouter.get("/api/blog", (_, res) => {
   const posts = [];
 
-  fs.readdirSync(POSTS_DIR).forEach((post) => {
+  fs.readdirSync(process.env.POSTS_DIR).forEach((post) => {
     let postPath = path.resolve("./posts", post);
     let postContent = fs.readFileSync(postPath);
     let { data } = matter(postContent);
@@ -27,9 +28,10 @@ blogRouter.get("/api/blog", (_, res) => {
 
 blogRouter.get("/api/blog/:postName", (req, res) => {
   const { postName } = req.params;
-  const postPath = path.resolve(POSTS_DIR, postName);
+  const postPath = path.resolve(process.env.POSTS_DIR, postName);
 
-  if (!postPath.startsWith(path.resolve(POSTS_DIR))) return res.sendStatus(403);
+  if (!postPath.startsWith(path.resolve(process.env.POSTS_DIR)))
+    return res.sendStatus(403);
   if (!fs.existsSync(postPath)) return res.sendStatus(404);
 
   const { content } = matter(fs.readFileSync(postPath));
@@ -37,4 +39,4 @@ blogRouter.get("/api/blog/:postName", (req, res) => {
   res.json(post);
 });
 
-module.exports = blogRouter;
+export default blogRouter;

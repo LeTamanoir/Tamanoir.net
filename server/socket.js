@@ -1,5 +1,5 @@
-const pty = require("node-pty");
-const { logOldConn, logNewConn } = require("./lib/logger");
+import pty from "node-pty";
+import { logOldConn, logNewConn } from "./lib/logger.js";
 
 const onConnection = (socket) => {
   logNewConn(socket);
@@ -27,4 +27,4 @@ const onConnection = (socket) => {
   socket.on("input", (input) => ptyProcess.write(input));
 };
 
-module.exports = { onConnection };
+export { onConnection };

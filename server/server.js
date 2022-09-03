@@ -1,21 +1,23 @@
-require("dotenv").config({ path: "./server/.env" });
-const express = require("express");
-const session = require("express-session");
-const { createServer } = require("http");
-const socketIO = require("socket.io");
-const path = require("path");
+import * as dotenv from "dotenv";
+dotenv.config({ path: "./server/.env" });
 
-const { onConnection } = require("./socket");
-const authRouter = require("./auth");
-const blogRouter = require("./blog");
-const { wrap } = require("./lib/wrap");
+import express from "express";
+import session from "express-session";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import path from "path";
+
+import { onConnection } from "./socket.js";
+import authRouter from "./auth.js";
+import blogRouter from "./blog.js";
+import { wrap } from "./lib/wrap.js";
 
 const PORT = process.env.PORT || 4000;
 const isProd = process.env.NODE_ENV === "production";
 
 const app = express();
 const httpServer = createServer(app);
-const io = socketIO(httpServer, {
+const io = new Server(httpServer, {
   cors: { origin: isProd ? "tamanoir.net" : "*" },
 });
 const sessionMiddleware = session({
@@ -23,18 +25,24 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.SECRET_PASSWORD,
+  cookie: {
+    secure: isProd,
+    sameSite: true,
+    maxAge: 1000 * 60 * 60 * 5,
+    //    1sec > 1min > 1hr > 5hr
+  },
 });
 
 //= APP
 
 app.use(sessionMiddleware);
 app.use(express.json());
-app.use(express.static(path.resolve("./build")));
+app.use(express.static(path.resolve("./dist")));
 
 app.use(blogRouter);
 app.use(authRouter);
 
-app.get("/*", (_, res) => res.sendFile(path.resolve("./build/index.html")));
+app.get("/*", (_, res) => res.sendFile(path.resolve("./dist/index.html")));
 
 //= IO
 

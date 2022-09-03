@@ -1,5 +1,7 @@
-const authRouter = require("express").Router();
-const bcrypt = require("bcrypt");
+import { Router } from "express";
+import bcrypt from "bcrypt";
+
+const authRouter = Router();
 
 authRouter.get("/api/login", (req, res) => {
   if (req.session.user) return res.json({ auth: true });
@@ -26,4 +28,4 @@ authRouter.post("/api/login", (req, res) => {
   res.json({ auth: false, message: "bad username or password" });
 });
 
-module.exports = authRouter;
+export default authRouter;
