@@ -21,10 +21,10 @@ const io = new Server(httpServer, {
   cors: { origin: isProd ? "tamanoir.net" : "*" },
 });
 const sessionMiddleware = session({
-  name: "session-id",
   saveUninitialized: false,
   resave: false,
   secret: process.env.SECRET_PASSWORD,
+  proxy: isProd,
   cookie: {
     secure: isProd,
     sameSite: true,
@@ -35,6 +35,7 @@ const sessionMiddleware = session({
 
 //= APP
 
+if (isProd) app.set('trust proxy', 1);
 app.use(sessionMiddleware);
 app.use(express.json());
 app.use(express.static(path.resolve("./dist")));
@@ -49,6 +50,8 @@ app.get("/*", (_, res) => res.sendFile(path.resolve("./dist/index.html")));
 io.use(wrap(sessionMiddleware));
 
 io.use((socket, next) => {
+  console.log(socket.request.session);
+
   if (socket.request.session?.user?.auth === true) next();
   else next(new Error("unauthorized"));
 });
