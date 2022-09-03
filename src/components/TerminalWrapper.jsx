@@ -1,6 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Terminal } from "xterm";
-import io from "socket.io-client";
 
 export default function TerminalWrapper({ isDark, setIsAuthed }) {
   const terminalRef = useRef(null);
@@ -20,17 +18,39 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
     socket.current.emit("resize", { cols, rows });
   };
 
-  useEffect(() => {
+  const loadStyle = () => {
+    terminal.current.options = {
+      theme: {
+        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+        foreground: isDark ? "#dfdfdf" : "#1f1f1f",
+        cursor: isDark ? "#dfdfdf" : "#1f1f1f",
+        cursorAccent: isDark ? "#1f1f1f" : "#dfdfdf",
+      },
+      fontWeight: "normal",
+      fontFamily: "JetBrains Mono",
+    };
+  };
+
+  const init = async () => {
+    const { io } = await import("socket.io-client");
+    const { Terminal } = await import("xterm");
+
     socket.current = io();
     terminal.current = new Terminal({ allowTransparency: true });
     terminal.current.open(terminalRef.current);
 
+    loadStyle();
     handleResize();
+
     terminal.current.onData((data) => socket.current.emit("input", data));
     socket.current.on("output", (data) => terminal.current.write(data));
     socket.current.on("disconnect", () => setIsAuthed(false));
 
     window.addEventListener("resize", handleResize);
+  };
+
+  useEffect(() => {
+    init();
 
     return () => {
       socket.current.close();
@@ -42,16 +62,7 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
   useEffect(() => {
     if (!terminal.current) return;
 
-    terminal.current.options = {
-      theme: {
-        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
-        foreground: isDark ? "#dfdfdf" : "#1f1f1f",
-        cursor: isDark ? "#dfdfdf" : "#1f1f1f",
-        cursorAccent: isDark ? "#1f1f1f" : "#dfdfdf",
-      },
-      fontWeight: "normal",
-      fontFamily: "JetBrains Mono",
-    };
+    loadStyle();
   }, [isDark, terminal.current]);
 
   return (
