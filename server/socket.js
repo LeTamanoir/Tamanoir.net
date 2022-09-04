@@ -5,7 +5,7 @@ const onConnection = (socket) => {
   logNewConn(socket);
 
   const ptyProcess = pty.spawn("bash", [], {
-    name: "xterm-color",
+    name: "xterm-256color",
     cwd: process.env.POSTS_DIR,
     env: process.env,
   });

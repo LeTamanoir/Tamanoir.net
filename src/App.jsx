@@ -31,11 +31,11 @@ export default function App() {
       <Header {...{ route, isAnimating, setIsAnimating }} />
 
       <div className="flex sm:absolute sm:top-2 sm:right-2">
-        <ColorThemeIcon {...{ theme, setTheme }} />
+        <ColorThemeIcon theme={theme} setTheme={setTheme} />
         <LoginIcon isAnimating={isAnimating} />
       </div>
 
-      <TransitionRoutes {...{ location, route }}>
+      <TransitionRoutes location={location} route={route}>
         <Route path="/" element={null} />
 
         <Route path="about" element={<About />} />

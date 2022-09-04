@@ -19,6 +19,8 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
   };
 
   const loadStyle = () => {
+    if (!terminal.current) return;
+
     terminal.current.options = {
       theme: {
         background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
@@ -59,11 +61,7 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (!terminal.current) return;
-
-    loadStyle();
-  }, [isDark, terminal.current]);
+  useEffect(() => loadStyle(), [isDark]);
 
   return (
     <div className="flex flex-col-reverse">

@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+@import "./main.css";
 @import "./hljs.css";
 @import "./markdown.css";
 @import "../../node_modules/xterm/css/xterm.css";
@@ -6,83 +8,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  @apply text-black dark:text-white bg-[url("/images/ocean-light.jpg")] dark:bg-[url("/images/ocean-dark.jpg")] bg-repeat bg-center h-screen w-full;
-
-  font-variant-ligatures: normal;
-}
-
-#root {
-  @apply flex items-center flex-col min-h-screen w-full;
-}
-
-.type-anim {
-  transition: width 0.25s ease;
-  width: calc(1ch * var(--data-steps-erase));
-}
-
-.type-anim span {
-  @apply block whitespace-nowrap overflow-hidden [--data-border-right:black] dark:[--data-border-right:white];
-  border-right: 0.05em solid transparent;
-}
-
-.no-ligatures {
-  font-variant-ligatures: none !important;
-}
-
-.link-blog {
-  @apply relative;
-}
-
-.link-blog::after {
-  @apply block content-[''] w-0 h-full absolute top-0 left-0 bg-white mix-blend-difference;
-
-  transition: width 0.75s steps(5);
-}
-
-.link-blog:hover::after {
-  @apply w-full;
-}
-
-@keyframes type {
-  from {
-    width: 0;
-    border-color: var(--data-border-right);
-  }
-  99% {
-    border-color: var(--data-border-right);
-  }
-  to {
-    width: calc(1ch * var(--data-steps-type));
-    border-color: transparent;
-  }
-}
-
-@keyframes erase {
-  from {
-    width: calc(1ch * var(--data-steps-erase));
-    border-color: var(--data-border-right);
-  }
-  99% {
-    border-color: var(--data-border-right);
-  }
-  to {
-    width: 0;
-    border-color: transparent;
-  }
-}
-
-@keyframes erase {
-  from {
-    width: calc(1ch * var(--data-steps-erase));
-    border-color: var(--data-border-right);
-  }
-  99% {
-    border-color: var(--data-border-right);
-  }
-  to {
-    width: 0;
-    border-color: transparent;
-  }
-}
