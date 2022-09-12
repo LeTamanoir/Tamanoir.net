@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "server:dev": "nodemon server/server.js",
     "server:prod": "node server/server.js",
-    "prod": "npm run client:build && NODE_ENV=production PORT=3000 npm run server:prod"
+    "prod": "npm run client:build && NODE_ENV=production PORT=3000 npm run server:prod",
+    "blog:password": "bash ./scripts/genpass.sh",
+    "blog:post": "bash ./scripts/genpost.sh"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

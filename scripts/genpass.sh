@@ -1,9 +1,7 @@
 #!/bin/bash
 
-USAGE="Usage: genpass <password>"
-
 if [ $# == 0 ] ; then
-    echo $USAGE;
+    echo "Usage: npm run blog:password <password>";
     exit 1;
 fi
 
