@@ -32,7 +32,13 @@ npm run server:dev
 npm run prod
 ```
 
-Generate password hash with `./scripts/genpass.sh` and change `server/.env` variables :
+Generate password hash :
+
+```bash
+npm run blog:password <password>
+```
+
+Change `server/.env` variables :
 
 | Variable        | Description                                 |
 | --------------- | ------------------------------------------- |

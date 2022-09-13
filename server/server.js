@@ -33,26 +33,35 @@ const sessionMiddleware = session({
   },
 });
 
-//= APP
+//=========//
+// APP     //
+//=========//
 
 if (isProd) app.set("trust proxy", 1);
 app.use(sessionMiddleware);
 app.use(express.json());
-app.use(express.static(path.resolve("./dist")));
 
 app.use(blogRouter);
 app.use(authRouter);
 
-app.get("/*", (_, res) => res.sendFile(path.resolve("./dist/index.html")));
+//=================================================================================//
+// handled by nginx                                                                //
+//                                                                                 //
+// app.use(express.static(path.resolve("./dist")));                                //
+// app.get("/*", (_, res) => res.sendFile(path.resolve("./dist/index.html")));     //
+//=================================================================================//
 
-//= IO
+//=========//
+// IO      //
+//=========//
 
-io.use(wrap(sessionMiddleware));
-
-io.use((socket, next) => {
+const authMiddleware = (socket, next) => {
   if (socket.request.session?.user?.auth === true) next();
   else next(new Error("unauthorized"));
-});
+};
+
+io.use(wrap(sessionMiddleware));
+io.use(authMiddleware);
 
 io.on("connection", onConnection);
 
