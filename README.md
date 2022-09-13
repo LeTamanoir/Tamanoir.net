@@ -49,7 +49,7 @@ Change `server/.env` variables :
 
 ### Benchmark
 
-**express.static** VS **nginx static**
+**express.static** VS **nginx static** (measured with [oha](https://github.com/hatoo/oha))
 
 |                  | express (localhost)        | nginx static (localhost) | express (tamanoir.net)     | nginx static (tamanoir.net) |
 | ---------------- | -------------------------- | ------------------------ | -------------------------- | --------------------------- |
