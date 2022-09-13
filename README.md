@@ -46,3 +46,18 @@ Change `server/.env` variables :
 | POSTS_DIR       | Posts directory                             |
 | BLOG_USERNAME   | Username                                    |
 | BLOG_PASSWORD   | Password hash                               |
+
+### Benchmark
+
+**express.static** VS **nginx static**
+
+|                  | express (localhost)        | nginx static (localhost) | express (tamanoir.net)     | nginx static (tamanoir.net) |
+| ---------------- | -------------------------- | ------------------------ | -------------------------- | --------------------------- |
+| **req/s**        | 3805.8748                  | 35566.0796               | 290.7661                   | 1775.8587                   |
+| **sec**          | 0.0131                     | 0.0014                   | 0.1653                     | 0.0275                      |
+|                  |                            |                          |                            |                             |
+| **improvements** | 35566 / 3805 = **9.34**    |                          | 1776 / 291 = **6.10**      |                             |
+|                  | 0.0131 / 0.0014 = **9.35** |                          | 0.1653 / 0.0275 = **6.01** |                             |
+
+**nginx static** is **9.3x** faster than **express** on localhost.
+**nginx static** is **6xx** faster than **express** on the internet (tamanoir.net).
