@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useFetcher from "../hooks/useFetcher.jsx";
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
 
-  const fetchPosts = async () => {
-    const res = await fetch("/api/blog");
-    const data = await res.json();
-    setPosts(data);
-  };
-
   useEffect(() => {
-    fetchPosts();
+    const [res, cleanup] = useFetcher("/api/blog");
+
+    res.then((r) => r.json()).then(setPosts);
+
+    return cleanup;
   }, []);
 
   return posts.length === 0 ? (
@@ -25,7 +24,7 @@ export default function Posts() {
           className="border-black dark:border-white border mb-8 p-4 link-blog"
         >
           <h2 className="text-lg mb-2">{post.title}</h2>
-          <p className="text-base font-light">{post.description}</p>
+          <p className="text-base font-light break-words">{post.description}</p>
         </Link>
       ))}
     </div>

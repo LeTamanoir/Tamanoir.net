@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { io } from "socket.io-client";
+import { Terminal } from "xterm";
 
 export default function TerminalWrapper({ isDark, setIsAuthed }) {
   const terminalRef = useRef(null);
@@ -33,10 +35,7 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
     };
   };
 
-  const init = async () => {
-    const { io } = await import("socket.io-client");
-    const { Terminal } = await import("xterm");
-
+  useEffect(() => {
     socket.current = io();
     terminal.current = new Terminal({ allowTransparency: true });
     terminal.current.open(terminalRef.current);
@@ -49,10 +48,6 @@ export default function TerminalWrapper({ isDark, setIsAuthed }) {
     socket.current.on("disconnect", () => setIsAuthed(false));
 
     window.addEventListener("resize", handleResize);
-  };
-
-  useEffect(() => {
-    init();
 
     return () => {
       socket.current.close();

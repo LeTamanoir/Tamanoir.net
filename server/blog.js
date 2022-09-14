@@ -15,7 +15,7 @@ blogRouter.get("/api/blog", (_, res) => {
     let postContent = fs.readFileSync(postPath);
     let { data } = matter(postContent);
 
-    posts.push({ ...data, href: encodeURIComponent(post) });
+    posts.push({ ...data, href: encodeURIComponent(post.replace(".md", "")) });
   });
 
   const dateHelper = (d) =>
@@ -28,10 +28,11 @@ blogRouter.get("/api/blog", (_, res) => {
 
 blogRouter.get("/api/blog/:postName", (req, res) => {
   const { postName } = req.params;
-  const postPath = path.resolve(process.env.POSTS_DIR, postName);
+  const postPath = path.resolve(process.env.POSTS_DIR, postName + ".md");
 
   if (!postPath.startsWith(path.resolve(process.env.POSTS_DIR)))
     return res.sendStatus(403);
+
   if (!fs.existsSync(postPath)) return res.sendStatus(404);
 
   const { content } = matter(fs.readFileSync(postPath));

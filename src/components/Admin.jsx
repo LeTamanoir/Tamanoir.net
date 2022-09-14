@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import TerminalWrapper from "./TerminalWrapper";
+import { Suspense, lazy, useEffect, useState } from "react";
+import useFetcher from "../hooks/useFetcher";
+const TerminalWrapper = lazy(() => import("./TerminalWrapper"));
 
 const InputHelper = ({ type, name }) => (
   <input
@@ -13,13 +14,6 @@ const InputHelper = ({ type, name }) => (
 export default function Admin({ isDark }) {
   const [isAuthed, setIsAuthed] = useState(false);
   const [error, setError] = useState("");
-
-  const checkAuth = async () => {
-    const res = await fetch("/api/login");
-    const { auth } = await res.json();
-
-    setIsAuthed(auth);
-  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -44,11 +38,17 @@ export default function Admin({ isDark }) {
   };
 
   useEffect(() => {
-    checkAuth();
+    const [res, cleanup] = useFetcher("/api/login");
+
+    res.then((r) => r.json()).then(({ auth }) => setIsAuthed(auth));
+
+    return cleanup;
   }, []);
 
   return isAuthed ? (
-    <TerminalWrapper isDark={isDark} setIsAuthed={setIsAuthed} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <TerminalWrapper isDark={isDark} setIsAuthed={setIsAuthed} />
+    </Suspense>
   ) : (
     <form onSubmit={onSubmit} className="flex items-center flex-col my-10">
       <InputHelper name="username" type="text" />
