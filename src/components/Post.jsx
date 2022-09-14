@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useFetcher from "../hooks/useFetcher";
+import useMemoFetcher from "../hooks/useMemoFetcher";
 
 export default function Post() {
   const [post, setPost] = useState({});
@@ -9,12 +9,16 @@ export default function Post() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const [res, cleanup] = useFetcher(`/api/blog/${postName}`);
+    const { res, memo, setMemo, cleanup } = useMemoFetcher(
+      `/api/blog/${postName}`
+    );
 
-    res.then((r) => {
-      if (r.status === 404) navigate("/404");
-      else r.json().then(setPost);
-    });
+    if (memo) setPost(memo);
+    else
+      res.then((r) => {
+        if (r.status === 404) navigate("/404");
+        else r.json().then((e) => (setPost(e), setMemo(e)));
+      });
 
     return cleanup;
   }, [postName]);

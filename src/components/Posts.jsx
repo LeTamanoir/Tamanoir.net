@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useFetcher from "../hooks/useFetcher.jsx";
+import useMemoFetcher from "../hooks/useMemoFetcher.jsx";
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const [res, cleanup] = useFetcher("/api/blog");
+    const { res, memo, setMemo, cleanup } = useMemoFetcher("/api/blog");
 
-    res.then((r) => r.json()).then(setPosts);
+    if (memo) setPosts(memo);
+    else res.then((r) => r.json()).then((e) => (setPosts(e), setMemo(e)));
 
     return cleanup;
   }, []);

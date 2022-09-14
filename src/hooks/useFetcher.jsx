@@ -1,4 +1,4 @@
-export default function useFetcher(url, options) {
+export default function useFetcher(url, options = {}) {
   const controller = new AbortController();
 
   const res = fetch(url, {
