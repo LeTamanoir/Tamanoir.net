@@ -28,3 +28,5 @@ I wanted to know the difference in speed between **express.static** and **nginx 
 
 **Nginx static** is **9.3x** faster than **express.static** on localhost.
 **Nginx static** is **7.8x** faster than **express.static** on the internet (tamanoir.net).
+
+Thanks for reading <3

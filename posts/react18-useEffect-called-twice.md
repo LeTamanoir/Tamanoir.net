@@ -58,11 +58,13 @@ You can then use it like this inside of a `useEffect` :
 
 ```js
 useEffect(() => {
-  const [res, cleanup] = useFetcher("/api/blog");
+  const [res, cleanup] = useFetcher("/some-route");
 
-  res.then((r) => r.json()).then(setPosts);
+  res.then((r) => r.json()).then(setData);
 
   return cleanup;
+  // or
+  // return () => cleanup()
 }, []);
 ```
 
