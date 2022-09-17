@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import useLoading from "../hooks/useLoading.jsx";
 import useMemoFetcher from "../hooks/useMemoFetcher.jsx";
 
 export default function Posts() {
-  const [posts, setPosts] = useState([]);
+  const { data: posts } = useMemoFetcher("/api/blog");
+  const { setLoadedRoute } = useLoading();
 
   useEffect(() => {
-    const { res, memo, setMemo, cleanup } = useMemoFetcher("/api/blog");
+    if (posts) setLoadedRoute("/blog");
+  }, [posts]);
 
-    if (memo) setPosts(memo);
-    else res.then((r) => r.json()).then((e) => (setPosts(e), setMemo(e)));
+  if (!posts) return <div>Loading...</div>;
 
-    return cleanup;
-  }, []);
-
-  return posts.length === 0 ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <div className="flex flex-col">
       {posts.map((post) => (
         <Link

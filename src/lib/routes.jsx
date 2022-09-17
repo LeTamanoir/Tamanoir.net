@@ -8,6 +8,8 @@ const routes = {
   "/404": "404",
 };
 
+export const staticRoutes = ["/", "/about", "/projects", "/contact", "/404"];
+
 const routeHelper = (location) => {
   if (location in routes) return routes[location];
   else if (location.match(/\/blog\/.*/g)) return routes["/blog"];

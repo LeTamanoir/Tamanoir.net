@@ -1,20 +1,35 @@
+import { useEffect, useState } from "react";
 import useFetcher from "./useFetcher";
 
 const FETCHED_URLS = {};
 
 export default function useMemoFetcher(url) {
-  if (FETCHED_URLS.hasOwnProperty(url)) {
-    return {
-      res: null,
-      memo: FETCHED_URLS[url],
-      setMemo: null,
-      cleanup: () => {},
-    };
-  }
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [status, setStatus] = useState(null);
 
-  const [res, cleanup] = useFetcher(url);
+  useEffect(() => {
+    if (FETCHED_URLS.hasOwnProperty(url)) {
+      setData(FETCHED_URLS[url]);
+      return;
+    }
 
-  const setMemo = (data) => (FETCHED_URLS[url] = data);
+    const [res, cleanup] = useFetcher(url);
 
-  return { res, memo: false, setMemo, cleanup };
+    res
+      .then((r) => {
+        setStatus(r.status);
+        return r.json();
+      })
+      .then(setData)
+      .catch(setError);
+
+    return cleanup;
+  }, []);
+
+  useEffect(() => {
+    if (data) FETCHED_URLS[url] = data;
+  }, [data]);
+
+  return { data, error, status };
 }

@@ -1,33 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useLoading from "../hooks/useLoading";
 import useMemoFetcher from "../hooks/useMemoFetcher";
 
 export default function Post() {
-  const [post, setPost] = useState({});
-
   const { postName } = useParams();
   const navigate = useNavigate();
 
+  const { data: post, status } = useMemoFetcher(`/api/blog/${postName}`);
+  const { setLoadedRoute } = useLoading();
+
   useEffect(() => {
-    const { res, memo, setMemo, cleanup } = useMemoFetcher(
-      `/api/blog/${postName}`
-    );
+    if (status === 404) navigate("/404");
+    if (post) setLoadedRoute(`/blog/${postName}`);
+  }, [status, post]);
 
-    if (memo) setPost(memo);
-    else
-      res.then((r) => {
-        if (r.status === 404) navigate("/404");
-        else r.json().then((e) => (setPost(e), setMemo(e)));
-      });
+  if (!post) return <div>Loading...</div>;
 
-    return cleanup;
-  }, [postName]);
-
-  return post.content === "" ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <div
-      className="markdown w-full"
+      className="markdown w-full overflow-x-scroll"
       dangerouslySetInnerHTML={{ __html: post.content }}
     ></div>
   );
