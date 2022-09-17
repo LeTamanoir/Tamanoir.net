@@ -13,9 +13,6 @@ export default function TransitionRoutes({ location, route, children }) {
       return;
     }
 
-    // if going to index dont show loader
-    if (route === "") return;
-
     if (hasToLoad(location.pathname)) setLoad(true);
 
     setCurrLocation(location);
