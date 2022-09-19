@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useIsAnimating from "../hooks/useIsAnimating";
 
 const LinkHelper = ({ to, children, isAnimating }) => {
   return (
@@ -14,8 +15,9 @@ const LinkHelper = ({ to, children, isAnimating }) => {
   );
 };
 
-export default function Header({ route, isAnimating, setIsAnimating }) {
+export default function Header({ route }) {
   const [oldRoute, setOldRoute] = useState(route);
+  const [isAnimating, setIsAnimating] = useIsAnimating("isAnimating");
 
   const titleAnim = useRef(null);
 

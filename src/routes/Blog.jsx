@@ -1,4 +1,6 @@
 import { Outlet } from "react-router-dom";
+import("../style/hljs.css");
+import("../style/markdown.css");
 
 export default function Blog() {
   return (

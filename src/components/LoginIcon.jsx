@@ -1,7 +1,10 @@
 import { BsPersonCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import useGlobalState from "../hooks/useGlobalState";
 
-export default function LoginIcon({ isAnimating }) {
+export default function LoginIcon() {
+  const [isAnimating, _] = useGlobalState("isAnimating");
+
   return (
     <Link
       to="/admin"

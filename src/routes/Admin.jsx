@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import useFetcher from "../hooks/useFetcher";
-const TerminalWrapper = lazy(() => import("./TerminalWrapper"));
+const TerminalWrapper = lazy(() => import("../components/TerminalWrapper"));
 
 const InputHelper = ({ type, name }) => (
   <input
@@ -11,7 +11,7 @@ const InputHelper = ({ type, name }) => (
   />
 );
 
-export default function Admin({ isDark }) {
+export default function Admin() {
   const [isAuthed, setIsAuthed] = useState(false);
   const [error, setError] = useState("");
 
@@ -47,7 +47,7 @@ export default function Admin({ isDark }) {
 
   return isAuthed ? (
     <Suspense fallback={<div>Loading...</div>}>
-      <TerminalWrapper isDark={isDark} setIsAuthed={setIsAuthed} />
+      <TerminalWrapper setIsAuthed={setIsAuthed} />
     </Suspense>
   ) : (
     <form onSubmit={onSubmit} className="flex items-center flex-col my-10">

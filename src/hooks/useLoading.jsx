@@ -1,11 +1,7 @@
-import { staticRoutes } from "../lib/routes";
-
-const LOADED_URLS = new Set(staticRoutes);
+import useLocalStorage from "./useLocalStorage";
 
 export default function useLoading() {
-  const setLoadedRoute = (route) => LOADED_URLS.add(route);
+  const [showLoad, setShowLoad] = useLocalStorage("load", "true");
 
-  const hasToLoad = (route) => !LOADED_URLS.has(route);
-
-  return { hasToLoad, setLoadedRoute };
+  return { showLoad, setShowLoad };
 }

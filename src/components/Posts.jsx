@@ -1,15 +1,9 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import useLoading from "../hooks/useLoading.jsx";
 import useMemoFetcher from "../hooks/useMemoFetcher.jsx";
 
 export default function Posts() {
   const { data: posts } = useMemoFetcher("/api/blog");
-  const { setLoadedRoute } = useLoading();
-
-  useEffect(() => {
-    if (posts) setLoadedRoute("/blog");
-  }, [posts]);
 
   if (!posts) return <div>Loading...</div>;
 

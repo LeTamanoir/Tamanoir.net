@@ -1,6 +1,9 @@
 import { BsLaptop, BsMoonStars, BsSun } from "react-icons/bs";
+import useColorTheme from "../hooks/useColorTheme";
 
-export default function ColorThemeIcon({ theme, setTheme }) {
+export default function ColorThemeIcon() {
+  const { theme, setTheme } = useColorTheme();
+
   const themes = {
     light: <BsSun className="w-5 h-5" />,
     dark: <BsMoonStars className="w-5 h-5" />,

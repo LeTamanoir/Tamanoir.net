@@ -1,11 +1,15 @@
 import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { Terminal } from "xterm";
+import useColorTheme from "../hooks/useColorTheme";
+import("xterm/css/xterm.css");
 
-export default function TerminalWrapper({ isDark, setIsAuthed }) {
+export default function TerminalWrapper({ setIsAuthed }) {
   const terminalRef = useRef(null);
   const terminal = useRef();
   const socket = useRef();
+
+  const { isDark } = useColorTheme();
 
   const colWidth = 9;
   const colHeight = 20;

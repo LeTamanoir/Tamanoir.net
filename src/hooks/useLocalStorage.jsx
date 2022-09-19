@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useGlobalState from "./useGlobalState";
 
 export default function useLocalStorage(key, defaultValue) {
-  const [data, setData] = useState("init");
+  const [data, setData] = useGlobalState(key, "init");
 
   useEffect(() => {
     let localData = localStorage.getItem(key);

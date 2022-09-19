@@ -1,47 +1,51 @@
 import { Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-import About from "./components/About";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
-import Blog from "./components/Blog";
+
 import routeHelper from "./lib/routes";
+
 import TransitionRoutes from "./components/TransitionRoutes";
-import Error404 from "./components/Error404";
-import Posts from "./components/Posts";
-import Post from "./components/Post";
 import ColorThemeIcon from "./components/ColorThemeIcon";
 import LoginIcon from "./components/LoginIcon";
-import Admin from "./components/Admin";
-import useColorTheme from "./hooks/useColorTheme";
-import { useState } from "react";
+
+import Posts from "./components/Posts";
+import Post from "./components/Post";
+
+import About from "./routes/About";
+import Projects from "./routes/Projects";
+import Contact from "./routes/Contact";
+import Blog from "./routes/Blog";
+import Error404 from "./routes/Error404";
+import Admin from "./routes/Admin";
+import LoadingIcon from "./components/LoadingIcon";
 
 export default function App() {
   const location = useLocation();
   const route = routeHelper(location.pathname);
-  const [theme, setTheme, isDark] = useColorTheme();
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  // route doesn't exist so 404
   if (route === "404") {
     return <Error404 />;
   }
 
+  document.title =
+    route !== "" ? route.split(" ")[1] + " - Tamanoir.net" : "Tamanoir.net";
+
   return (
     <>
-      <Header {...{ route, isAnimating, setIsAnimating }} />
+      <Header route={route} />
 
       <div className="flex sm:absolute sm:top-2 sm:right-2">
-        <ColorThemeIcon theme={theme} setTheme={setTheme} />
-        <LoginIcon isAnimating={isAnimating} />
+        <LoadingIcon />
+        <ColorThemeIcon />
+        <LoginIcon />
       </div>
 
-      <TransitionRoutes location={location} route={route}>
+      <TransitionRoutes location={location}>
         <Route path="/" element={null} />
 
         <Route path="about" element={<About />} />
         <Route path="projects" element={<Projects />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="admin" element={<Admin isDark={isDark} />} />
+        <Route path="admin" element={<Admin />} />
 
         <Route path="blog" element={<Blog />}>
           <Route path="" element={<Posts />} />

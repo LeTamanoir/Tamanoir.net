@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
-import { Routes } from "react-router-dom";
-import useLoading from "../hooks/useLoading";
+import { Routes, useLocation } from "react-router-dom";
 import Loading from "./Loading";
+import useLoading from "../hooks/useLoading";
 
-export default function TransitionRoutes({ location, route, children }) {
+export default function TransitionRoutes({ location, children }) {
   const [currLocation, setCurrLocation] = useState(location);
   const [load, setLoad] = useState(false);
-  const { hasToLoad } = useLoading();
+  const { showLoad } = useLoading();
 
   useEffect(() => {
-    if (hasToLoad === null || location.pathname === currLocation.pathname) {
-      return;
-    }
+    if (location.pathname === currLocation.pathname) return;
 
-    if (hasToLoad(location.pathname)) setLoad(true);
+    if (location.pathname !== "/" && showLoad === "true") setLoad(true);
 
     setCurrLocation(location);
-  }, [location]);
+  }, [location, showLoad]);
 
   return (
     <>
