@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useFetcher from "./useFetcher";
 
-const FETCHED_URLS = {};
+const FETCHED_URLS = new Map();
 
 export default function useMemoFetcher(url) {
   const [data, setData] = useState(null);
@@ -9,8 +9,8 @@ export default function useMemoFetcher(url) {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    if (FETCHED_URLS.hasOwnProperty(url)) {
-      setData(FETCHED_URLS[url]);
+    if (FETCHED_URLS.has(url)) {
+      setData(FETCHED_URLS.get(url));
       return;
     }
 
@@ -28,7 +28,7 @@ export default function useMemoFetcher(url) {
   }, []);
 
   useEffect(() => {
-    if (data) FETCHED_URLS[url] = data;
+    if (data) FETCHED_URLS.set(url, data);
   }, [data]);
 
   return { data, error, status };

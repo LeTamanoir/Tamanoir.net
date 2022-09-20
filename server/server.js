@@ -5,7 +5,8 @@ import express from "express";
 import session from "express-session";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import path from "path";
+import Database from "better-sqlite3";
+import sessionStoreAdapter from "better-sqlite3-session-store";
 
 import { onConnection } from "./socket.js";
 import authRouter from "./auth.js";
@@ -20,11 +21,21 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: { origin: isProd ? "tamanoir.net" : "*" },
 });
+const SessionStore = sessionStoreAdapter(session);
+const SessionStoreDB = new Database("./server/db/session.sqlite", {});
 const sessionMiddleware = session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.SECRET_PASSWORD,
   proxy: isProd,
+  store: new SessionStore({
+    client: SessionStoreDB,
+    expired: {
+      clear: true,
+      intervalMs: 1000 * 60 * 15,
+      //         1sec > 1min > 15min
+    },
+  }),
   cookie: {
     secure: isProd,
     sameSite: true,

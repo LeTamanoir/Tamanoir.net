@@ -4,9 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-  @apply text-black dark:text-white bg-[url("/images/ocean-light.jpg")] dark:bg-[url("/images/ocean-dark.jpg")] bg-repeat bg-center h-screen w-full;
+  @apply text-black dark:text-white bg-[url("/images/ocean-light.jpg")] 
+  dark:bg-[url("/images/ocean-dark.jpg")] bg-repeat bg-center h-screen w-full;
 
   font-variant-ligatures: normal;
 }
@@ -41,6 +41,12 @@ body {
 
 .link-blog:hover::after {
   @apply w-full;
+}
+
+.loading-crossed {
+  @apply before:block before:top-[50%] before:left-[-20%] before:absolute relative
+  before:w-[140%] before:h-[0.2rem] before:translate-y-[-50%] before:-rotate-45
+ before:bg-black before:dark:bg-white before:rounded-full;
 }
 
 @keyframes type {
@@ -84,4 +90,3 @@ body {
     border-color: transparent;
   }
 }
-

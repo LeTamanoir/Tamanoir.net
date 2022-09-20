@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Routes, useLocation } from "react-router-dom";
+import { Routes } from "react-router-dom";
 import Loading from "./Loading";
 import useLoading from "../hooks/useLoading";
 
-export default function TransitionRoutes({ location, children }) {
+export default function LoadingWrapper({ location, children }) {
   const [currLocation, setCurrLocation] = useState(location);
   const [load, setLoad] = useState(false);
   const { showLoad } = useLoading();

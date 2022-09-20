@@ -3,7 +3,7 @@ import Header from "./components/Header";
 
 import routeHelper from "./lib/routes";
 
-import TransitionRoutes from "./components/TransitionRoutes";
+import LoadingWrapper from "./components/LoadingWrapper";
 import ColorThemeIcon from "./components/ColorThemeIcon";
 import LoginIcon from "./components/LoginIcon";
 
@@ -39,7 +39,7 @@ export default function App() {
         <LoginIcon />
       </div>
 
-      <TransitionRoutes location={location}>
+      <LoadingWrapper location={location}>
         <Route path="/" element={null} />
 
         <Route path="about" element={<About />} />
@@ -51,7 +51,7 @@ export default function App() {
           <Route path="" element={<Posts />} />
           <Route path=":postName" element={<Post />} />
         </Route>
-      </TransitionRoutes>
+      </LoadingWrapper>
     </>
   );
 }

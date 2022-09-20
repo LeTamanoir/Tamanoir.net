@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 
-const listeners = {};
+const listeners = new Map();
 
 export default function useGlobalState(key, initialState) {
   const [state, setState] = useState(initialState);
 
-  const setGlobalState = (nextGlobalState) => {
-    listeners[key].forEach((listener) => listener(nextGlobalState));
+  const setGlobalState = (newGlobalState) => {
+    listeners.get(key).forEach((listener) => listener(newGlobalState));
   };
 
   useEffect(() => {
-    if (!listeners.hasOwnProperty(key)) {
-      listeners[key] = new Set();
+    if (!listeners.has(key)) {
+      listeners.set(key, new Set());
     }
 
     const listener = (state) => setState(state);
 
-    listeners[key].add(listener);
+    listeners.get(key).add(listener);
 
-    return () => listeners[key].delete(listener);
+    return () => listeners.get(key).delete(listener);
   }, []);
 
   return [state, setGlobalState];
