@@ -18,7 +18,7 @@ import Error404 from "./routes/Error404";
 import Admin from "./routes/Admin";
 import LoadingIcon from "./components/LoadingIcon";
 
-export default function App() {
+const App: React.FC = () => {
   const location = useLocation();
   const route = routeHelper(location.pathname);
 
@@ -54,4 +54,6 @@ export default function App() {
       </LoadingWrapper>
     </>
   );
-}
+};
+
+export default App;

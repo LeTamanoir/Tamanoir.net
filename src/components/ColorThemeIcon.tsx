@@ -1,7 +1,7 @@
 import { BsLaptop, BsMoonStars, BsSun } from "react-icons/bs";
 import useColorTheme from "../hooks/useColorTheme";
 
-export default function ColorThemeIcon() {
+const ColorThemeIcon = () => {
   const { theme, setTheme } = useColorTheme();
 
   const themes = {
@@ -22,4 +22,6 @@ export default function ColorThemeIcon() {
       {themes[theme]}
     </button>
   );
-}
+};
+
+export default ColorThemeIcon;

@@ -1,9 +1,15 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useMemoFetcher from "../hooks/useMemoFetcher.jsx";
 
-export default function Posts() {
-  const { data: posts } = useMemoFetcher("/api/blog");
+interface Posts {
+  date: string;
+  description: string;
+  href: string;
+  title: string;
+}
+
+const Posts = () => {
+  const { data: posts } = useMemoFetcher<Array<Posts>>("/api/blog");
 
   if (!posts) return <div>Loading...</div>;
 
@@ -21,4 +27,6 @@ export default function Posts() {
       ))}
     </div>
   );
-}
+};
+
+export default Posts;

@@ -2,11 +2,15 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useMemoFetcher from "../hooks/useMemoFetcher";
 
-export default function Post() {
+interface Post {
+  content: string;
+}
+
+const Post = () => {
   const { postName } = useParams();
   const navigate = useNavigate();
 
-  const { data: post, status } = useMemoFetcher(`/api/blog/${postName}`);
+  const { data: post, status } = useMemoFetcher<Post>(`/api/blog/${postName}`);
 
   useEffect(() => {
     if (status === 404) navigate("/404");
@@ -22,4 +26,6 @@ export default function Post() {
       ></div>
     </div>
   );
-}
+};
+
+export default Post;

@@ -1,13 +1,15 @@
 import { useEffect, useRef } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { Terminal } from "xterm";
 import useColorTheme from "../hooks/useColorTheme";
 import("xterm/css/xterm.css");
 
-export default function TerminalWrapper({ setIsAuthed }) {
-  const terminalRef = useRef(null);
-  const terminal = useRef();
-  const socket = useRef();
+const TerminalWrapper: React.FC<{ setIsAuthed: (value: boolean) => void }> = ({
+  setIsAuthed,
+}) => {
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const terminal = useRef<Terminal>();
+  const socket = useRef<Socket>();
 
   const { isDark } = useColorTheme();
 
@@ -17,11 +19,11 @@ export default function TerminalWrapper({ setIsAuthed }) {
   const handleResize = () => {
     let { innerHeight, innerWidth } = window;
 
-    let cols = parseInt((innerWidth - innerWidth / 3) / colWidth);
-    let rows = parseInt((innerHeight - innerHeight / 3) / colHeight);
+    let cols = Math.floor((innerWidth - innerWidth / 3) / colWidth);
+    let rows = Math.floor((innerHeight - innerHeight / 3) / colHeight);
 
-    terminal.current.resize(cols, rows);
-    socket.current.emit("resize", { cols, rows });
+    terminal.current!.resize(cols, rows);
+    socket.current!.emit("resize", { cols, rows });
   };
 
   const loadStyle = () => {
@@ -42,20 +44,20 @@ export default function TerminalWrapper({ setIsAuthed }) {
   useEffect(() => {
     socket.current = io();
     terminal.current = new Terminal({ allowTransparency: true });
-    terminal.current.open(terminalRef.current);
+    terminal.current!.open(terminalRef.current!);
 
     loadStyle();
     handleResize();
 
-    terminal.current.onData((data) => socket.current.emit("input", data));
-    socket.current.on("output", (data) => terminal.current.write(data));
+    terminal.current.onData((data) => socket.current!.emit("input", data));
+    socket.current.on("output", (data) => terminal.current!.write(data));
     socket.current.on("disconnect", () => setIsAuthed(false));
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      socket.current.close();
-      terminal.current.dispose();
+      socket.current!.close();
+      terminal.current!.dispose();
       window.removeEventListener("resize", handleResize);
     };
   }, []);
@@ -74,4 +76,6 @@ export default function TerminalWrapper({ setIsAuthed }) {
       </div>
     </div>
   );
-}
+};
+
+export default TerminalWrapper;

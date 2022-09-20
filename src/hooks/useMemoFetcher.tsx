@@ -3,10 +3,10 @@ import useFetcher from "./useFetcher";
 
 const FETCHED_URLS = new Map();
 
-export default function useMemoFetcher(url) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState(null);
+const useMemoFetcher = <T,>(url: string) => {
+  const [data, setData] = useState(null as any);
+  const [error, setError] = useState(null as any);
+  const [status, setStatus] = useState(null as any);
 
   useEffect(() => {
     if (FETCHED_URLS.has(url)) {
@@ -31,5 +31,7 @@ export default function useMemoFetcher(url) {
     if (data) FETCHED_URLS.set(url, data);
   }, [data]);
 
-  return { data, error, status };
-}
+  return { data: data as T, error, status };
+};
+
+export default useMemoFetcher;

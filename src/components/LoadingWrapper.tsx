@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
-import { Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Location, Routes } from "react-router-dom";
 import Loading from "./Loading";
 import useLoading from "../hooks/useLoading";
 
-export default function LoadingWrapper({ location, children }) {
+const LoadingWrapper: React.FC<{
+  location: Location;
+  children: React.ReactNode;
+}> = ({ location, children }) => {
   const [currLocation, setCurrLocation] = useState(location);
   const [load, setLoad] = useState(false);
   const { showLoad } = useLoading();
@@ -24,4 +27,6 @@ export default function LoadingWrapper({ location, children }) {
       </div>
     </>
   );
-}
+};
+
+export default LoadingWrapper;

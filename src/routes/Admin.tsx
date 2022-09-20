@@ -1,8 +1,11 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState, FormEvent } from "react";
 import useFetcher from "../hooks/useFetcher";
 const TerminalWrapper = lazy(() => import("../components/TerminalWrapper"));
 
-const InputHelper = ({ type, name }) => (
+const InputHelper: React.FC<{ type: string; name: string }> = ({
+  type,
+  name,
+}) => (
   <input
     className="text-black bg-white border-2 border-black mb-4 p-2 rounded-md"
     type={type}
@@ -11,13 +14,13 @@ const InputHelper = ({ type, name }) => (
   />
 );
 
-export default function Admin() {
+const Admin = () => {
   const [isAuthed, setIsAuthed] = useState(false);
   const [error, setError] = useState("");
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.target));
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
 
     const res = await fetch("/api/login", {
       method: "POST",
@@ -63,4 +66,6 @@ export default function Admin() {
       />
     </form>
   );
-}
+};
+
+export default Admin;

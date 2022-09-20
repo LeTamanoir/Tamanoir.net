@@ -2,7 +2,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
 
-export default function LoginIcon() {
+const LoginIcon = () => {
   const [isAnimating, _] = useGlobalState("isAnimating");
 
   return (
@@ -15,4 +15,6 @@ export default function LoginIcon() {
       <BsPersonCircle className="w-5 h-5" />
     </Link>
   );
-}
+};
+
+export default LoginIcon;

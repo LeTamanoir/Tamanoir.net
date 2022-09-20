@@ -1,8 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useIsAnimating from "../hooks/useIsAnimating";
 
-const LinkHelper = ({ to, children, isAnimating }) => {
+const LinkHelper: React.FC<{
+  to: string;
+  children: React.ReactNode;
+  isAnimating: boolean;
+}> = ({ to, children, isAnimating }) => {
   return (
     <Link
       to={to}
@@ -15,15 +19,21 @@ const LinkHelper = ({ to, children, isAnimating }) => {
   );
 };
 
-export default function Header({ route }) {
+const Header: React.FC<{ route: string }> = ({ route }) => {
   const [oldRoute, setOldRoute] = useState(route);
-  const [isAnimating, setIsAnimating] = useIsAnimating("isAnimating");
+  const [isAnimating, setIsAnimating] = useIsAnimating();
 
-  const titleAnim = useRef(null);
+  const titleAnim = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    titleAnim.current.style.setProperty("--data-steps-type", route.length);
-    titleAnim.current.style.setProperty("--data-steps-erase", oldRoute.length);
+    titleAnim.current!.style.setProperty(
+      "--data-steps-type",
+      route.length.toString()
+    );
+    titleAnim.current!.style.setProperty(
+      "--data-steps-erase",
+      oldRoute.length.toString()
+    );
   }, [route, oldRoute]);
 
   useEffect(() => {
@@ -39,10 +49,10 @@ export default function Header({ route }) {
 
     // going to the index
     if (route === "") {
-      titleAnim.current.querySelector("span").style.animation =
+      titleAnim.current!.querySelector("span")!.style.animation =
         "erase 1s steps(var(--data-steps-erase)) forwards";
 
-      titleAnim.current.querySelector("span").onanimationend = () => {
+      titleAnim.current!.querySelector("span")!.onanimationend = () => {
         setOldRoute(route);
         setIsAnimating(false);
       };
@@ -54,10 +64,10 @@ export default function Header({ route }) {
     if (oldRoute === "") {
       setOldRoute(route);
 
-      titleAnim.current.querySelector("span").style.animation =
+      titleAnim.current!.querySelector("span")!.style.animation =
         "type 1s steps(var(--data-steps-type))";
 
-      titleAnim.current.querySelector("span").onanimationend = () => {
+      titleAnim.current!.querySelector("span")!.onanimationend = () => {
         setIsAnimating(false);
       };
 
@@ -66,16 +76,16 @@ export default function Header({ route }) {
 
     // navigating outside of the index
     if (oldRoute !== "") {
-      titleAnim.current.querySelector("span").style.animation =
+      titleAnim.current!.querySelector("span")!.style.animation =
         "erase 1s steps(var(--data-steps-erase))";
 
-      titleAnim.current.querySelector("span").onanimationend = () => {
+      titleAnim.current!.querySelector("span")!.onanimationend = () => {
         setOldRoute(route);
 
-        titleAnim.current.querySelector("span").style.animation =
+        titleAnim.current!.querySelector("span")!.style.animation =
           "type 1s steps(var(--data-steps-type))";
 
-        titleAnim.current.querySelector("span").onanimationend = () => {
+        titleAnim.current!.querySelector("span")!.onanimationend = () => {
           setIsAnimating(false);
         };
       };
@@ -119,4 +129,6 @@ export default function Header({ route }) {
       </nav>
     </header>
   );
-}
+};
+
+export default Header;

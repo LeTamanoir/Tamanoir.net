@@ -1,7 +1,9 @@
 import useGlobalState from "./useGlobalState";
 
-export default function useIsAnimating() {
+const useIsAnimating = () => {
   const [isAnimating, setIsAnimating] = useGlobalState("isAnimating", false);
 
   return [isAnimating, setIsAnimating];
-}
+};
+
+export default useIsAnimating;

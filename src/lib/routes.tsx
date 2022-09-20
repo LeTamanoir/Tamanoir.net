@@ -10,8 +10,8 @@ const routes = {
 
 export const staticRoutes = ["/", "/about", "/projects", "/contact", "/404"];
 
-const routeHelper = (location) => {
-  if (location in routes) return routes[location];
+const routeHelper = (location: string) => {
+  if (location in routes) return routes[location as keyof typeof routes];
   else if (location.match(/\/blog\/.*/g)) return routes["/blog"];
   else return "404";
 };
