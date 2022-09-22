@@ -2,19 +2,18 @@ import React, { Suspense, lazy, useEffect, useState, FormEvent } from "react";
 import useFetcher from "../hooks/useFetcher";
 const TerminalWrapper = lazy(() => import("../components/TerminalWrapper"));
 
-const InputHelper: React.FC<{ type: string; name: string }> = ({
-  type,
-  name,
-}) => (
-  <input
-    className="text-black bg-white border-2 border-black mb-4 p-2 rounded-md"
-    type={type}
-    placeholder={name}
-    name={name}
-  />
-);
+function InputHelper({ type, name }: { type: string; name: string }) {
+  return (
+    <input
+      className="text-black bg-white border-2 border-black mb-4 p-2 rounded-md"
+      type={type}
+      placeholder={name}
+      name={name}
+    />
+  );
+}
 
-const Admin = () => {
+export default function Admin() {
   const [isAuthed, setIsAuthed] = useState(false);
   const [error, setError] = useState("");
 
@@ -66,6 +65,4 @@ const Admin = () => {
       />
     </form>
   );
-};
-
-export default Admin;
+}

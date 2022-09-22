@@ -2,11 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useIsAnimating from "../hooks/useIsAnimating";
 
-const LinkHelper: React.FC<{
+function LinkHelper({
+  to,
+  children,
+  isAnimating,
+}: {
   to: string;
   children: React.ReactNode;
   isAnimating: boolean;
-}> = ({ to, children, isAnimating }) => {
+}) {
   return (
     <Link
       to={to}
@@ -17,11 +21,11 @@ const LinkHelper: React.FC<{
       {children}
     </Link>
   );
-};
+}
 
-const Header: React.FC<{ route: string }> = ({ route }) => {
+export default function Header({ route }: { route: string }) {
   const [oldRoute, setOldRoute] = useState(route);
-  const [isAnimating, setIsAnimating] = useIsAnimating();
+  const { isAnimating, setIsAnimating } = useIsAnimating();
 
   const titleAnim = useRef<HTMLDivElement>(null);
 
@@ -129,6 +133,4 @@ const Header: React.FC<{ route: string }> = ({ route }) => {
       </nav>
     </header>
   );
-};
-
-export default Header;
+}

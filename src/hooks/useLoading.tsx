@@ -1,9 +1,7 @@
 import useLocalStorage from "./useLocalStorage";
 
-const useLoading = () => {
+export default function useLoading() {
   const [showLoad, setShowLoad] = useLocalStorage("load", "true");
 
   return { showLoad, setShowLoad };
-};
-
-export default useLoading;
+}

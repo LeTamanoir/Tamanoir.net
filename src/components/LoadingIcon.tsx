@@ -1,7 +1,7 @@
 import useLoading from "../hooks/useLoading";
 import { ImSpinner9 } from "react-icons/im";
 
-const LoadingIcon: React.FC = () => {
+export default function LoadingIcon() {
   const { showLoad, setShowLoad } = useLoading();
 
   return (
@@ -14,6 +14,4 @@ const LoadingIcon: React.FC = () => {
       </button>
     </div>
   );
-};
-
-export default LoadingIcon;
+}

@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 
 type Listener = (state: any) => void;
 
-const listeners = new Map();
+const listeners = new Map<string, Set<Listener>>();
 
-const useGlobalState = (
+export default function useGlobalState<StateType>(
   key: string,
-  initialState?: any
-): [any, (state: any) => void] => {
+  initialState?: StateType
+): [StateType, (state: StateType) => void] {
   const [state, setState] = useState(initialState);
 
-  const setGlobalState = (newGlobalState: any) => {
+  const setGlobalState = (newGlobalState: StateType) => {
     listeners
-      .get(key)
+      .get(key)!
       .forEach((listener: Listener) => listener(newGlobalState));
   };
 
@@ -23,12 +23,12 @@ const useGlobalState = (
 
     const listener: Listener = (state) => setState(state);
 
-    listeners.get(key).add(listener);
+    listeners.get(key)!.add(listener);
 
-    return () => listeners.get(key).delete(listener);
+    return () => {
+      listeners.get(key)!.delete(listener);
+    };
   }, []);
 
-  return [state, setGlobalState];
-};
-
-export default useGlobalState;
+  return [state!, setGlobalState];
+}

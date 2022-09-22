@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-const Loading: React.FC<{ start: boolean; stop: () => void }> = ({
+export default function Loading({
   start,
   stop,
-}) => {
+}: {
+  start: boolean;
+  stop: () => void;
+}) {
   const [progress, setProgress] = useState(0);
 
   const end = 20;
@@ -38,6 +41,4 @@ const Loading: React.FC<{ start: boolean; stop: () => void }> = ({
       </span>
     </div>
   );
-};
-
-export default Loading;
+}

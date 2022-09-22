@@ -1,7 +1,7 @@
-const useFetcher = (
+export default function useFetcher(
   url: string,
   options = {}
-): [Promise<Response>, () => void] => {
+): [Promise<Response>, () => void] {
   const controller = new AbortController();
 
   const res = fetch(url, {
@@ -12,6 +12,4 @@ const useFetcher = (
   const cleanup = () => controller.abort();
 
   return [res, cleanup];
-};
-
-export default useFetcher;
+}

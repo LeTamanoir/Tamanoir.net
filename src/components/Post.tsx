@@ -6,7 +6,7 @@ interface Post {
   content: string;
 }
 
-const Post = () => {
+export default function Post() {
   const { postName } = useParams();
   const navigate = useNavigate();
 
@@ -26,6 +26,4 @@ const Post = () => {
       ></div>
     </div>
   );
-};
-
-export default Post;
+}

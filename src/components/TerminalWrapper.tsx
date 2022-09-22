@@ -4,9 +4,11 @@ import { Terminal } from "xterm";
 import useColorTheme from "../hooks/useColorTheme";
 import("xterm/css/xterm.css");
 
-const TerminalWrapper: React.FC<{ setIsAuthed: (value: boolean) => void }> = ({
+export default function TerminalWrapper({
   setIsAuthed,
-}) => {
+}: {
+  setIsAuthed: (value: boolean) => void;
+}) {
   const terminalRef = useRef<HTMLDivElement>(null);
   const terminal = useRef<Terminal>();
   const socket = useRef<Socket>();
@@ -76,6 +78,4 @@ const TerminalWrapper: React.FC<{ setIsAuthed: (value: boolean) => void }> = ({
       </div>
     </div>
   );
-};
-
-export default TerminalWrapper;
+}

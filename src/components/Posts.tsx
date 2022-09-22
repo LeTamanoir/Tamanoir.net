@@ -8,8 +8,8 @@ interface Posts {
   title: string;
 }
 
-const Posts = () => {
-  const { data: posts } = useMemoFetcher<Array<Posts>>("/api/blog");
+export default function Posts() {
+  const { data: posts } = useMemoFetcher<Posts[]>("/api/blog");
 
   if (!posts) return <div>Loading...</div>;
 
@@ -27,6 +27,4 @@ const Posts = () => {
       ))}
     </div>
   );
-};
-
-export default Posts;
+}

@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import useLocalStorage from "./useLocalStorage";
 
-const useColorTheme = () => {
+type Theme = "light" | "dark" | "system";
+
+export default function useColorTheme() {
   const [theme, setTheme] = useLocalStorage("theme", "dark");
 
   useEffect(() => {
@@ -17,10 +19,8 @@ const useColorTheme = () => {
   }, [theme]);
 
   return {
-    theme: theme as "light" | "dark" | "system",
+    theme: theme as Theme,
     setTheme,
     isDark: theme !== "light",
   };
-};
-
-export default useColorTheme;
+}

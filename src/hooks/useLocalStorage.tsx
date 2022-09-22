@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import useGlobalState from "./useGlobalState";
 
-const useLocalStorage = (
+export default function useLocalStorage(
   key: string,
   defaultValue: string
-): [string, (state: any) => void] => {
+): [string, (state: string) => void] {
   const [data, setData] = useGlobalState(key, "init");
 
   useEffect(() => {
@@ -25,6 +25,4 @@ const useLocalStorage = (
   }, [data]);
 
   return [data, setData];
-};
-
-export default useLocalStorage;
+}
