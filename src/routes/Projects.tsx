@@ -23,6 +23,36 @@ export default function Projects() {
           </a>
         </li>
         <li>
+          IsmaVote :{" "}
+          <a
+            className="hover:underline"
+            href="https://isma-vote.vercel.app/"
+            target="_blank"
+          >
+            ismavote
+          </a>
+        </li>
+        <li>
+          KatsApp :{" "}
+          <a
+            className="hover:underline"
+            href="https://github.com/LeTamanoir/software-pool-rush-realtime-chat"
+            target="_blank"
+          >
+            katsapp
+          </a>
+        </li>
+        <li>
+          my_lib :{" "}
+          <a
+            className="hover:underline"
+            href="https://github.com/LeTamanoir/my_lib"
+            target="_blank"
+          >
+            my_lib
+          </a>
+        </li>
+        <li>
           2048 clone :{" "}
           <a
             className="hover:underline"
